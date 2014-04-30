@@ -46,5 +46,8 @@ namespace Accela.OAuth.Client
 
         [DataMember(Name = "avatarUrl")]
         public string AvatarUrl { get; set; }
+
+        [DataMember(Name = "agencyName")]
+        public string AgencyName { get; set; }
     }
 }

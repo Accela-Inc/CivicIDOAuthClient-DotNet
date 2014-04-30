@@ -120,6 +120,10 @@ namespace Accela.OAuth.Client
                     civicUser = json["result"].ToObject<User>();
                 else // v3
                     civicUser = JsonConvert.DeserializeObject<User>(responseBody);
+
+                var agencyName = HttpContext.Current.Request.Params.Get("agency_name");
+
+                civicUser.AgencyName = string.IsNullOrWhiteSpace(agencyName) ? string.Empty : agencyName.ToLower();
             }
 
             var userData = new Dictionary<string, string>();
@@ -136,8 +140,6 @@ namespace Accela.OAuth.Client
                 userData.Add("firstName", civicUser.FirstName);
                 userData.Add("lastName", civicUser.LastName);
 
-                userData.Add("agencyName", this.AppInfo.AgencyName.ToLower());
-
                 userData.Add("countryCode", civicUser.CountryCode);
                 userData.Add("city", civicUser.City);
                 userData.Add("streetAddress", civicUser.StreetAddress);
@@ -149,6 +151,8 @@ namespace Accela.OAuth.Client
                 userData.Add("phoneNumber", civicUser.PhoneNumber);
 
                 userData.Add("avatarUrl", civicUser.AvatarUrl);
+
+                userData.Add("agencyName", civicUser.AgencyName);
             }
 
             return userData;
